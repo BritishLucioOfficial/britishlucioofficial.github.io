@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>We Do Drugs 24/7 Organisation Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --accent: #ff7a00;
+      --radius: 10px;
+      --transition: 0.2s ease;
+    }
+
+    /* Light theme (default) */
+    :root {
+      --bg: #f7f7f7;
+      --bg-panel: #ffffff;
+      --text: #1a1a1a;
+      --muted: #555555;
+      --border: #dcdcdc;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Dark theme */
+    :root[data-theme="dark"] {
+      --bg: #0f0f0f;
+      --bg-panel: #1a1a1a;
+      --text: #f2f2f2;
+      --muted: #aaaaaa;
+      --border: #2a2a2a;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: radial-gradient(circle at 30% 30%, #ffd9b3, #ff7a00);
+      box-shadow: 0 0 12px rgba(255, 122, 0, 0.6);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links button,
+    .nav-links a {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      transition: var(--transition);
+    }
+
+    .nav-links button:hover,
+    .nav-links a:hover {
+      color: var(--text);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .nav-links .primary-link {
+      color: #fff;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(255, 122, 0, 0.7);
+    }
+
+    .nav-links .primary-link:hover {
+      filter: brightness(1.05);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: color-mix(in srgb, var(--bg-panel) 80%, transparent);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 1.5rem auto 2.5rem;
+      padding: 0 1.25rem;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-panel);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.55rem 1.1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(255, 122, 0, 0.7);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+      color: color-mix(in srgb, var(--accent) 80%, var(--text));
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      margin-bottom: 0.75rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .rank-card {
+      border-left: 3px solid color-mix(in srgb, var(--accent) 70%, transparent);
+    }
+
+    .rank-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .rank-tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li::before {
+      content: "• ";
+      color: var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 0.75rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg-panel) 90%, transparent);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 1px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .status-ok {
+      color: #1fa84f;
+      border-color: #1fa84f55;
+    }
+
+    .status-warn {
+      color: #e0a800;
+      border-color: #e0a80055;
+    }
+
+    .status-danger {
+      color: #e55353;
+      border-color: #e5535355;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 0.5rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .alert {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .alert-success {
+      color: #1fa84f;
+    }
+
+    .alert-error {
+      color: #e55353;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="nav-left">
+        <div class="logo"></div>
+        <div>
+          <div class="brand-title">WDD24/7</div>
+          <div class="muted" style="font-size:0.75rem;">Organisation Portal</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <button data-nav="home">Home</button>
+        <button data-nav="ranks">Ranks</button>
+        <button data-nav="contact">Contact</button>
+        <button data-nav="login" id="nav-login">Login</button>
+        <a href="#" class="hidden" id="nav-dashboard" data-nav="dashboard">Dashboard</a>
+        <a href="#" class="hidden" id="nav-admin" data-nav="admin">Admin Panel</a>
+        <button class="theme-toggle" id="themeToggle">
+          <span id="themeIcon">☀️</span>
+          <span id="themeLabel">Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- HOME -->
+      <section id="home" class="active">
+        <div class="hero">
+          <div class="card">
+            <div class="pill">Paralake City • Perpheads RP</div>
+            <h1 class="hero-title">We Do Drugs 24/7</h1>
+            <p class="hero-subtitle">
+              A structured, disciplined organisation portal for WDD24/7 members, leadership, and administration.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" data-nav="ranks">
+                View Rank Structure
+              </button>
+              <button class="btn btn-ghost" data-nav="login">
+                Member Login
+              </button>
+            </div>
+            <p class="muted">
+              All content on this website relates to in‑game, fictional roleplay within the Perpheads environment.
+            </p>
+          </div>
+          <div class="grid">
+            <div class="card">
+              <h3>Organisation Overview</h3>
+              <p class="muted" style="margin-top:0.35rem;">
+                WDD24/7 operates with a strict hierarchy, clear permissions, and controlled access. Only authorised
+                leadership can create and manage accounts.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Access Control</h3>
+              <p class="muted" style="margin-top:0.35rem;">
+                Accounts are created manually by leadership. No public registration. Creator‑only tools allow
+                whitelisting of trusted members.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Key Features</h3>
+            <ul style="margin-top:0.5rem;">
+              <li>Full rank breakdown with permissions</li>
+              <li>Member dashboard for announcements and rules</li>
+              <li>Admin panel for account and rank management</li>
+              <li>Creator‑only whitelist controls</li>
+              <li>Dark & light mode interface</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>RP Disclaimer</h3>
+            <p class="muted" style="margin-top:0.5rem;">
+              This website is for roleplay purposes only. Any references to operations, ranks, or activities are
+              strictly in‑game and fictional.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RANKS -->
+      <section id="ranks">
+        <div class="card" style="margin-bottom:1rem;">
+          <h2>Rank Structure</h2>
+          <p class="muted">
+            The official WDD24/7 hierarchy, including leadership, recruitment, members, and restricted statuses.
+          </p>
+        </div>
+        <div class="grid grid-2" id="ranksContainer">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- LOGIN -->
+      <section id="login">
+        <div class="card" style="max-width:420px;">
+          <h2>Member Login</h2>
+          <p class="muted" style="margin-bottom:0.75rem;">
+            Only accounts created by WDD24/7 leadership can access this portal. There is no public registration.
+          </p>
+          <div class="form-group">
+            <label for="loginUsername">Username</label>
+            <input id="loginUsername" type="text" autocomplete="username" />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" autocomplete="current-password" />
+          </div>
+          <button class="btn btn-primary" id="loginBtn" style="width:100%;margin-top:0.5rem;">
+            Login
+          </button>
+          <p class="muted" style="margin-top:0.5rem;font-size:0.8rem;">
+            Forgot your password? Contact a Co‑Owner or higher. Password resets are handled manually.
+          </p>
+          <div id="loginAlert" class="alert"></div>
+        </div>
+      </section>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard">
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="two-col">
+            <div>
+              <h2>Member Dashboard</h2>
+              <p class="muted" id="dashboardWelcome">
+                Welcome, member.
+              </p>
+            </div>
+            <div style="text-align:right;">
+              <div class="badge status-ok" id="currentRankBadge">
+                Rank: —
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Announcements</h3>
+            <ul id="announcementList" style="margin-top:0.5rem;">
+              <!-- Filled by JS -->
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Organisation Rules</h3>
+            <ul style="margin-top:0.5rem;">
+              <li>Follow all Perpheads server rules at all times.</li>
+              <li>Respect the chain of command and rank structure.</li>
+              <li>Do not bring unnecessary heat or drama to the organisation.</li>
+              <li>Use organisation resources responsibly and as directed.</li>
+              <li>Keep internal information within the organisation.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIN PANEL -->
+      <section id="admin">
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="two-col">
+            <div>
+              <h2>Admin Panel</h2>
+              <p class="muted">
+                Restricted area. Only leadership ranks can access these tools.
+              </p>
+            </div>
+            <div style="text-align:right;">
+              <div class="badge status-warn" id="adminRankBadge">
+                Admin access: Limited
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Account Management</h3>
+            <p class="muted" style="margin-bottom:0.5rem;">
+              Create and manage member accounts. Only leadership can perform these actions.
+            </p>
+            <div class="form-group">
+              <label for="newUserName">Username</label>
+              <input id="newUserName" type="text" />
+            </div>
+            <div class="form-group">
+              <label for="newUserPassword">Password</label>
+              <input id="newUserPassword" type="password" />
+            </div>
+            <div class="form-group">
+              <label for="newUserRank">Rank</label>
+              <select id="newUserRank"></select>
+            </div>
+            <button class="btn btn-primary" id="createUserBtn">
+              Create Account
+            </button>
+            <div id="createUserAlert" class="alert"></div>
+
+            <hr style="margin:1rem 0;border:none;border-top:1px solid var(--border);" />
+
+            <h3>Creator‑Only Whitelist</h3>
+            <p class="muted" style="margin-bottom:0.5rem;">
+              Only THE TERMINATOR or Website Builder can see and use this control.
+            </p>
+            <button class="btn btn-primary hidden" id="whitelistBtn">
+              Whitelist New Member
+            </button>
+            <div id="whitelistAlert" class="alert"></div>
+          </div>
+
+          <div class="card">
+            <h3>Current Users</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Rank</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody">
+                <!-- Filled by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="card">
+          <h2>Contact & Links</h2>
+          <p class="muted" style="margin-bottom:0.75rem;">
+            Use these channels to reach WDD24/7 leadership for recruitment, questions, or coordination.
+          </p>
+          <div class="grid grid-2">
+            <div>
+              <h3>In‑Game Contact</h3>
+              <ul style="margin-top:0.5rem;">
+                <li>Ask for: <strong>THE TERMINATOR</strong> or <strong>Website Builder</strong></li>
+                <li>Or contact a Co‑Owner if leadership is unavailable.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Out‑of‑Game</h3>
+              <ul style="margin-top:0.5rem;">
+                <li>Discord server: (add your link)</li>
+                <li>Steam group: (add your link)</li>
+              </ul>
+            </div>
+          </div>
+          <p class="muted" style="margin-top:1rem;font-size:0.8rem;">
+            This website is not affiliated with Perpheads officially. It is a community‑run portal for a roleplay
+            organisation.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© <span id="year"></span> WDD24/7 Organisation Portal</span>
+      <span>All content is fictional and for roleplay purposes only.</span>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- THEME ----------
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const themeLabel = document.getElementById("themeLabel");
+
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        root.setAttribute("data-theme", "dark");
+        themeIcon.textContent = "🌙";
+        themeLabel.textContent = "Dark";
+      } else {
+        root.removeAttribute("data-theme");
+        themeIcon.textContent = "☀️";
+        themeLabel.textContent = "Light";
+      }
+      localStorage.setItem("wdd247-theme", theme);
+    }
+
+    const savedTheme = localStorage.getItem("wdd247-theme") || "light";
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    // ---------- NAVIGATION ----------
+    const sections = document.querySelectorAll("main section");
+    const navButtons = document.querySelectorAll("[data-nav]");
+    const navLogin = document.getElementById("nav-login");
+    const navDashboard = document.getElementById("nav-dashboard");
+    const navAdmin = document.getElementById("nav-admin");
+
+    function showSection(id) {
+      sections.forEach(sec => sec.classList.remove("active"));
+      const target = document.getElementById(id);
+      if (target) target.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    navButtons.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = btn.getAttribute("data-nav");
+        if (target) showSection(target);
+      });
+    });
+
+    // ---------- DATA ----------
+    const ranks = [
+      {
+        name: "THE TERMINATOR",
+        role: "Founder / Creator",
+        description: "Ultimate authority over the organisation and the website.",
+        permissions: [
+          "Full system control",
+          "Create, edit, and delete accounts",
+          "Promote and demote any member",
+          "Kick and ban members",
+          "Edit organisation information and image",
+          "Manage organisation bank account (RP)",
+          "Post announcements and view logs",
+          "Access creator‑only whitelist tools"
+        ]
+      },
+      {
+        name: "Website Builder",
+        role: "Technical Owner / Architect",
+        description: "Holds identical permissions to THE TERMINATOR for site and account management.",
+        permissions: [
+          "Full system control",
+          "Create, edit, and delete accounts",
+          "Promote and demote any member",
+          "Kick and ban members",
+          "Edit organisation information and image",
+          "Manage organisation bank account (RP)",
+          "Post announcements and view logs",
+          "Access creator‑only whitelist tools"
+        ]
+      },
+      {
+        name: "Co-Owner",
+        role: "Second-in-command",
+        description: "High-level leadership with broad administrative powers.",
+        permissions: [
+          "Create accounts",
+          "Promote and demote members",
+          "Kick and ban members",
+          "Edit organisation information",
+          "Post announcements",
+          "Assist with internal structure"
+        ]
+      },
+      {
+        name: "Recruiter (Shark)",
+        role: "Recruitment Specialist",
+        description: "Trusted member responsible for bringing in new talent.",
+        permissions: [
+          "Invite members",
+          "Accept new members",
+          "Recommend promotions to leadership"
+        ]
+      },
+      {
+        name: "Elder 4",
+        role: "Senior Veteran",
+        description: "Highly trusted member with seniority.",
+        permissions: [
+          "Assist with member oversight",
+          "Provide guidance to lower ranks"
+        ]
+      },
+      {
+        name: "Senior Soldier",
+        role: "Experienced Operative",
+        description: "Reliable member with experience in operations.",
+        permissions: [
+          "Standard member access",
+          "Assist in training and coordination"
+        ]
+      },
+      {
+        name: "Soldier",
+        role: "Core Member",
+        description: "Standard member of the organisation.",
+        permissions: [
+          "Participate in operations",
+          "Access member dashboard"
+        ]
+      },
+      {
+        name: "Recruit",
+        role: "Trial Member",
+        description: "New member under evaluation.",
+        permissions: [
+          "Limited access",
+          "Subject to review by leadership"
+        ]
+      },
+      {
+        name: "Bye Bye",
+        role: "Removed / Inactive",
+        description: "No longer an active member.",
+        permissions: [
+          "No portal access"
+        ]
+      },
+      {
+        name: "Banned",
+        role: "Permanently Removed",
+        description: "Permanently removed from the organisation.",
+        permissions: [
+          "No portal access"
+        ]
+      },
+      {
+        name: "NEW PLAYER",
+        role: "Default Entry Rank",
+        description: "Brand new member awaiting evaluation.",
+        permissions: [
+          "Minimal access",
+          "Awaiting assignment to a proper rank"
+        ]
+      }
+    ];
+
+    const announcements = [
+      "Welcome to the WDD24/7 Organisation Portal.",
+      "Remember: all actions must follow Perpheads server rules.",
+      "Recruitment is handled by Recruiter (Shark) and above.",
+      "Only THE TERMINATOR and Website Builder can whitelist new members."
+    ];
+
+    // Simulated users (front-end only)
+    let users = [
+      { username: "terminator", password: "demo", rank: "THE TERMINATOR" },
+      { username: "builder", password: "demo", rank: "Website Builder" },
+      { username: "coowner", password: "demo", rank: "Co-Owner" },
+      { username: "member", password: "demo", rank: "Soldier" }
+    ];
+
+    let currentUser = null;
+
+    // ---------- RANKS RENDER ----------
+    const ranksContainer = document.getElementById("ranksContainer");
+    function renderRanks() {
+      ranksContainer.innerHTML = "";
+      ranks.forEach(r => {
+        const card = document.createElement("div");
+        card.className = "card rank-card";
+        card.innerHTML = `
+          <div class="rank-name">${r.name}</div>
+          <div class="rank-tag">${r.role}</div>
+          <p class="muted" style="margin-bottom:0.5rem;">${r.description}</p>
+          <ul>
+            ${r.permissions.map(p => `<li>${p}</li>`).join("")}
+          </ul>
+        `;
+        ranksContainer.appendChild(card);
+      });
+    }
+    renderRanks();
+
+    // ---------- LOGIN ----------
+    const loginUsername = document.getElementById("loginUsername");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginAlert = document.getElementById("loginAlert");
+
+    function setLoginAlert(msg, type = "error") {
+      loginAlert.textContent = msg;
+      loginAlert.className = "alert " + (type === "success" ? "alert-success" : "alert-error");
+    }
+
+    function updateNavForUser() {
+      if (currentUser) {
+        navLogin.textContent = "Logout";
+        navDashboard.classList.remove("hidden");
+
+        const leadershipRanks = ["THE TERMINATOR", "Website Builder", "Co-Owner", "Recruiter (Shark)"];
+        if (leadershipRanks.includes(currentUser.rank)) {
+          navAdmin.classList.remove("hidden");
+        } else {
+          navAdmin.classList.add("hidden");
+        }
+      } else {
+        navLogin.textContent = "Login";
+        navDashboard.classList.add("hidden");
+        navAdmin.classList.add("hidden");
+      }
+    }
+
+    navLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (currentUser) {
+        currentUser = null;
+        updateNavForUser();
+        setLoginAlert("", "success");
+        loginUsername.value = "";
+        loginPassword.value = "";
+        showSection("home");
+      } else {
+        showSection("login");
+      }
+    });
+
+    loginBtn.addEventListener("click", () => {
+      const u = loginUsername.value.trim();
+      const p = loginPassword.value.trim();
+      const found = users.find(user => user.username === u && user.password === p);
+      if (!found) {
+        setLoginAlert("Invalid username or password.", "error");
+        return;
+      }
+      currentUser = found;
+      setLoginAlert("Login successful.", "success");
+      updateNavForUser();
+      updateDashboard();
+      updateAdminPanel();
+      showSection("dashboard");
+    });
+
+    // ---------- DASHBOARD ----------
+    const dashboardWelcome = document.getElementById("dashboardWelcome");
+    const currentRankBadge = document.getElementById("currentRankBadge");
+    const announcementList = document.getElementById("announcementList");
+
+    function updateDashboard() {
+      if (!currentUser) return;
+      dashboardWelcome.textContent = `Welcome, ${currentUser.username}.`;
+      currentRankBadge.textContent = `Rank: ${currentUser.rank}`;
+      announcementList.innerHTML = announcements.map(a => `<li>${a}</li>`).join("");
+    }
+
+    // ---------- ADMIN PANEL ----------
+    const adminRankBadge = document.getElementById("adminRankBadge");
+    const newUserName = document.getElementById("newUserName");
+    const newUserPassword = document.getElementById("newUserPassword");
+    const newUserRank = document.getElementById("newUserRank");
+    const createUserBtn = document.getElementById("createUserBtn");
+    const createUserAlert = document.getElementById("createUserAlert");
+    const whitelistBtn = document.getElementById("whitelistBtn");
+    const whitelistAlert = document.getElementById("whitelistAlert");
+    const userTableBody = document.getElementById("userTableBody");
+
+    function setCreateUserAlert(msg, type = "error") {
+      createUserAlert.textContent = msg;
+      createUserAlert.className = "alert " + (type === "success" ? "alert-success" : "alert-error");
+    }
+
+    function setWhitelistAlert(msg, type = "error") {
+      whitelistAlert.textContent = msg;
+      whitelistAlert.className = "alert " + (type === "success" ? "alert-success" : "alert-error");
+    }
+
+    function populateRankSelect() {
+      newUserRank.innerHTML = ranks.map(r => `<option value="${r.name}">${r.name}</option>`).join("");
+    }
+    populateRankSelect();
+
+    function renderUserTable() {
+      userTableBody.innerHTML = "";
+      users.forEach((u, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${u.username}</td>
+          <td>${u.rank}</td>
+          <td>
+            <div class="table-actions">
+              <button class="btn btn-ghost" data-action="promote" data-index="${index}" style="font-size:0.75rem;">Promote</button>
+              <button class="btn btn-ghost" data-action="demote" data-index="${index}" style="font-size:0.75rem;">Demote</button>
+              <button class="btn btn-ghost" data-action="delete" data-index="${index}" style="font-size:0.75rem;color:#e55353;">Delete</button>
+            </div>
+          </td>
+        `;
+        userTableBody.appendChild(tr);
+      });
+    }
+
+    function updateAdminPanel() {
+      if (!currentUser) return;
+      const leadershipRanks = ["THE TERMINATOR", "Website Builder", "Co-Owner", "Recruiter (Shark)"];
+      if (leadershipRanks.includes(currentUser.rank)) {
+        adminRankBadge.textContent = `Admin access: ${currentUser.rank}`;
+        adminRankBadge.classList.add("status-ok");
+      } else {
+        adminRankBadge.textContent = "Admin access: None";
+        adminRankBadge.classList.remove("status-ok");
+      }
+
+      // Creator-only whitelist button
+      if (currentUser.rank === "THE TERMINATOR" || currentUser.rank === "Website Builder") {
+        whitelistBtn.classList.remove("hidden");
+      } else {
+        whitelistBtn.classList.add("hidden");
+      }
+
+      renderUserTable();
+    }
+
+    createUserBtn.addEventListener("click", () => {
+      if (!currentUser) return;
+      const leadershipRanks = ["THE TERMINATOR", "Website Builder", "Co-Owner"];
+      if (!leadershipRanks.includes(currentUser.rank)) {
+        setCreateUserAlert("You do not have permission to create accounts.", "error");
+        return;
+      }
+      const username = newUserName.value.trim();
+      const password = newUserPassword.value.trim();
+      const rank = newUserRank.value;
+
+      if (!username || !password) {
+        setCreateUserAlert("Username and password are required.", "error");
+        return;
+      }
+      if (users.some(u => u.username === username)) {
+        setCreateUserAlert("That username already exists.", "error");
+        return;
+      }
+
+      users.push({ username, password, rank });
+      renderUserTable();
+      newUserName.value = "";
+      newUserPassword.value = "";
+      setCreateUserAlert("Account created successfully.", "success");
+    });
+
+    whitelistBtn.addEventListener("click", () => {
+      if (!currentUser) return;
+      if (currentUser.rank !== "THE TERMINATOR" && currentUser.rank !== "Website Builder") {
+        setWhitelistAlert("You do not have access to the whitelist tool.", "error");
+        return;
+      }
+      const username = prompt("Enter username to whitelist:");
+      if (!username) {
+        setWhitelistAlert("Whitelist cancelled.", "error");
+        return;
+      }
+      if (users.some(u => u.username === username)) {
+        setWhitelistAlert("That username already exists.", "error");
+        return;
+      }
+      users.push({ username, password: "changeme", rank: "NEW PLAYER" });
+      renderUserTable();
+      setWhitelistAlert(`Whitelisted ${username} with default rank NEW PLAYER.`, "success");
+    });
+
+    userTableBody.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      const action = btn.getAttribute("data-action");
+      const index = parseInt(btn.getAttribute("data-index"), 10);
+      if (Number.isNaN(index)) return;
+
+      if (!currentUser) return;
+      const leadershipRanks = ["THE TERMINATOR", "Website Builder", "Co-Owner"];
+      if (!leadershipRanks.includes(currentUser.rank)) {
+        alert("You do not have permission to modify users.");
+        return;
+      }
+
+      const user = users[index];
+      if (!user) return;
+
+      if (action === "delete") {
+        if (!confirm(`Delete user ${user.username}?`)) return;
+        users.splice(index, 1);
+      } else if (action === "promote") {
+        const currentRankIndex = ranks.findIndex(r => r.name === user.rank);
+        if (currentRankIndex > 0) {
+          user.rank = ranks[currentRankIndex - 1].name;
+        }
+      } else if (action === "demote") {
+        const currentRankIndex = ranks.findIndex(r => r.name === user.rank);
+        if (currentRankIndex < ranks.length - 1 && currentRankIndex !== -1) {
+          user.rank = ranks[currentRankIndex + 1].name;
+        }
+      }
+      renderUserTable();
+    });
+
+    // ---------- FOOTER ----------
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
